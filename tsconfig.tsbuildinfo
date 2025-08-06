@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/controller/app/aiController.ts","./src/routes/app/aiRouter.ts","./src/routes/v1/index.ts","./src/static/prompts.ts","./src/utils/transcribe.ts"],"version":"5.8.3"}
