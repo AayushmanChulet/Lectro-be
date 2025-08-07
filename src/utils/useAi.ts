@@ -1,29 +1,43 @@
 import { GoogleGenAI } from "@google/genai";
+import { chatBotPrompt, flashCardsPrompt, notesPrompt, quizPrompt, summaryPrompt, transcriptionSummary } from "../static/prompts";
 
-interface Props {
-    prompt : string,
-    type : "notes" | "flashCards" | "chatbot" |  "summary",
-    userInput? : string,
-    prevRes? : string[],
+interface PrevResponses {
+  party : "user" | "bot",
+  message : string
 }
 
+interface Props {
+    type : "notes" | "flashCards" | "chatbot" |  "summary" | "quiz",
+    transcription : string,
+    userInput? : string,
+    prevResponses? : PrevResponses[],
+}
 
+const prompt = {
+    chatbot : chatBotPrompt,
+    notes : notesPrompt,
+    flashCards : flashCardsPrompt,
+    summary : summaryPrompt,
+    quiz : quizPrompt
+} 
 
-async function useAi(props : Props) {
+export async function aiRequest(props : Props) {
 
     const aiReqest = {
-    notes : `${props.prompt}\n\noutput:`,
-    flashCards : `${props.prompt}\n\noutput:`,
-    summary : `${props.prompt}\n\noutput:`,
-    chatbot : `${props.prompt}\n\n Last 5 messages are:${props.prevRes}\nInput:${props.userInput}\nOutput:`,
+    notes : `${prompt[props.type]}\ntranscription:${props.transcription}\n\noutput:`,
+    flashCards : `${prompt[props.type]}\ntranscription:${props.transcription}\n\noutput:`,
+    summary : `${prompt[props.type]}\ntranscription:${props.transcription}\n\noutput:`,
+    chatbot : `${prompt[props.type]}\ntranscription:${props.transcription}\n Last 5 messages are:${props.prevResponses}\nUser input:${props.userInput}\n\nOutput:`,
+    quiz : `${prompt[props.type]}\ntranscription:${props.transcription}\n\noutput:`
+
 }
 
   const ai = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY,
+    apiKey: "AIzaSyDw-04aoIe6lBsE7bUmS7AJfykPLk3pHP8",
   });
   const config = {
   };
-  const model = 'gemini-2.5-pro';
+  const model = 'gemma-3n-e2b-it';
   const contents = [
     {
       role: 'user',
@@ -40,7 +54,9 @@ async function useAi(props : Props) {
     config,
     contents,
   });
-  const res : string = response?.candidates[0]?.content?.parts[0].text;
+  
+  //@ts-ignore
+  const res : string  = response?.candidates[0]?.content?.parts[0].text;
 
   return res;
 }

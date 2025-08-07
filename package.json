@@ -19,6 +19,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "play-dl": "^1.9.7",
     "youtube-transcript": "^1.2.1",

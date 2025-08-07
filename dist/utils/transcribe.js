@@ -11,18 +11,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = transcribe;
 const youtube_1 = require("@langchain/community/document_loaders/web/youtube");
-function secondsToTimestamp(seconds) {
-    const date = new Date(0);
-    date.setSeconds(seconds);
-    return date.toISOString().substring(11, 19);
-}
 function transcribe(videoUrl) {
     return __awaiter(this, void 0, void 0, function* () {
         const loader = youtube_1.YoutubeLoader.createFromUrl(videoUrl, {
             language: "en"
         });
         const data = yield loader.load();
-        console.log(data[0].pageContent);
-        return data[0].pageContent;
+        const cleanTranscription = (transcriptionProp) => {
+            return transcriptionProp
+                .replace(/\b(um|uh|like|you know)\b/gi, '')
+                .replace(/\[\d+:\d+\]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+        };
+        const processedTranscription = cleanTranscription(data[0].pageContent);
+        return processedTranscription;
     });
 }
