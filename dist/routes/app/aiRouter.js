@@ -10,5 +10,5 @@ router.get("/notes", aiController_1.notesController);
 router.get("/flashcards", aiController_1.flashcardController);
 router.get("/summary", aiController_1.summaryController);
 router.get("/quiz", aiController_1.quizController);
-router.get("/chats", aiController_1.chatBotController);
+router.get("/chat", aiController_1.chatBotController);
 exports.default = router;

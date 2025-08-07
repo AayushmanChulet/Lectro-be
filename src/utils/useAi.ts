@@ -33,7 +33,7 @@ export async function aiRequest(props : Props) {
 }
 
   const ai = new GoogleGenAI({
-    apiKey: "AIzaSyDw-04aoIe6lBsE7bUmS7AJfykPLk3pHP8",
+    apiKey: process.env.GEMINI_API_KEY,
   });
   const config = {
   };

@@ -30,7 +30,7 @@ function aiRequest(props) {
             quiz: `${prompt[props.type]}\ntranscription:${props.transcription}\n\noutput:`
         };
         const ai = new genai_1.GoogleGenAI({
-            apiKey: "AIzaSyDw-04aoIe6lBsE7bUmS7AJfykPLk3pHP8",
+            apiKey: process.env.GEMINI_API_KEY,
         });
         const config = {};
         const model = 'gemma-3n-e2b-it';
