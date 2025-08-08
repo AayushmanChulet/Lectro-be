@@ -13,10 +13,19 @@ exports.default = transcribe;
 const youtube_1 = require("@langchain/community/document_loaders/web/youtube");
 function transcribe(videoUrl) {
     return __awaiter(this, void 0, void 0, function* () {
-        const loader = youtube_1.YoutubeLoader.createFromUrl(videoUrl, {
-            language: "en"
-        });
-        const data = yield loader.load();
+        if (!videoUrl.includes("https://www.youtube.com/watch?v=")) {
+            videoUrl = `https://www.youtube.com/watch?v=${videoUrl}`;
+        }
+        let data;
+        try {
+            const loader = youtube_1.YoutubeLoader.createFromUrl(videoUrl, {
+                language: "en"
+            });
+            data = yield loader.load();
+        }
+        catch (err) {
+            throw new Error('Something went wrong');
+        }
         const cleanTranscription = (transcriptionProp) => {
             return transcriptionProp
                 .replace(/\b(um|uh|like|you know)\b/gi, '')

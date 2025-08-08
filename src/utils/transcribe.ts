@@ -1,13 +1,23 @@
 import { YoutubeLoader } from "@langchain/community/document_loaders/web/youtube";
 
 export default async function transcribe(videoUrl : string) {
-  const loader = YoutubeLoader.createFromUrl(
-    videoUrl,
-    {
-      language: "en" 
-    }
-  );
-  const data = await loader.load();
+
+  if(!videoUrl.includes("https://www.youtube.com/watch?v=")){
+    videoUrl = `https://www.youtube.com/watch?v=${videoUrl}`
+  }
+  let data;
+  try{
+    const loader = YoutubeLoader.createFromUrl(
+        videoUrl,
+        {
+          language: "en" 
+        }
+      );
+     data = await loader.load();
+  }catch(err) {
+    throw new Error('Something went wrong');
+  }
+  
 
   const cleanTranscription = (transcriptionProp: string): string => {
     return transcriptionProp

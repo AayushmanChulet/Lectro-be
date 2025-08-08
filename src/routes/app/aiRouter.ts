@@ -4,10 +4,10 @@ import { quizPrompt } from '../../static/prompts';
 
 const router = express.Router();
 
-router.get("/notes", notesController);
-router.get("/flashcards", flashcardController);
-router.get("/summary", summaryController);
-router.get("/quiz", quizController);
-router.get("/chat", chatBotController)
+router.get("/notes/:link", notesController);
+router.get("/flashcards/:link", flashcardController);
+router.get("/summary/:link", summaryController);
+router.get("/quiz/:link", quizController);
+router.post("/chat", chatBotController)
 
 export default router;
