@@ -189,3 +189,27 @@ export const chatBotController = async (req: Request, res: Response) => {
     data: chatResponse,
   });
 };
+
+export const promptSummrize = async (req: Request, res: Response) => {
+  const { link } = req.params;
+
+  if (!link) {
+    return res.status(403).json({
+      message: "Invalid input",
+      status: "rejected",
+      data: {},
+    });
+  }
+
+  const transcription = await transcribe(link);
+  const getSummarizeTranscription = await aiRequest({
+    type: "summarizeTranscription",
+    transcription,
+  });
+
+  res.status(200).json({
+    message: "transcription generated successfully",
+    status: "success",
+    data: getSummarizeTranscription,
+  });
+}

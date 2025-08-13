@@ -10,7 +10,7 @@ export default async function transcribe(videoUrl : string) {
     const loader = YoutubeLoader.createFromUrl(
         videoUrl,
         {
-          language: "en" 
+          language : "en"
         }
       );
      data = await loader.load();
@@ -29,6 +29,6 @@ export default async function transcribe(videoUrl : string) {
   
   const processedTranscription = cleanTranscription(data[0].pageContent);
 
-  return processedTranscription
+  return processedTranscription;
 }
 

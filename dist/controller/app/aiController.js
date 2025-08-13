@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.chatBotController = exports.quizController = exports.summaryController = exports.flashcardController = exports.notesController = void 0;
+exports.promptSummrize = exports.chatBotController = exports.quizController = exports.summaryController = exports.flashcardController = exports.notesController = void 0;
 const transcribe_1 = __importDefault(require("../../utils/transcribe"));
 const zod_1 = __importDefault(require("zod"));
 const useAi_1 = require("../../utils/useAi");
@@ -165,3 +165,24 @@ const chatBotController = (req, res) => __awaiter(void 0, void 0, void 0, functi
     });
 });
 exports.chatBotController = chatBotController;
+const promptSummrize = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { link } = req.params;
+    if (!link) {
+        return res.status(403).json({
+            message: "Invalid input",
+            status: "rejected",
+            data: {},
+        });
+    }
+    const transcription = yield (0, transcribe_1.default)(link);
+    const getSummarizeTranscription = yield (0, useAi_1.aiRequest)({
+        type: "summarizeTranscription",
+        transcription,
+    });
+    res.status(200).json({
+        message: "transcription generated successfully",
+        status: "success",
+        data: getSummarizeTranscription,
+    });
+});
+exports.promptSummrize = promptSummrize;

@@ -11,4 +11,5 @@ router.get("/flashcards/:link", aiController_1.flashcardController);
 router.get("/summary/:link", aiController_1.summaryController);
 router.get("/quiz/:link", aiController_1.quizController);
 router.post("/chat", aiController_1.chatBotController);
+router.get("/transcription/:link", aiController_1.promptSummrize);
 exports.default = router;
