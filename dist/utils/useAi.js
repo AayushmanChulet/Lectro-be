@@ -76,7 +76,6 @@ ${props.transcription}\n\n**Your Output**- A clear, engaging Markdown summary th
                 const text = ((_b = (_a = response === null || response === void 0 ? void 0 : response.candidates[0]) === null || _a === void 0 ? void 0 : _a.content) === null || _b === void 0 ? void 0 : _b.parts[0].text) || "";
                 partialSummaries.push(text.trim());
             }
-            // Merge partial summaries into one final summary
             const mergePrompt = `Here are summaries of parts of a transcript:\n${partialSummaries.join("\n\n")}\n\nPlease combine them into one clear, cohesive summary without repetition.`;
             const finalResponse = yield ai.models.generateContent({
                 model,
