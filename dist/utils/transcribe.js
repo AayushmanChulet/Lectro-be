@@ -19,22 +19,31 @@ const extractVideoId = (url) => {
 function transcribe(videoInput) {
     return __awaiter(this, void 0, void 0, function* () {
         const videoId = extractVideoId(videoInput);
-        console.log(videoId);
         try {
-            const subtitles = yield (0, youtube_caption_extractor_1.getSubtitles)({
+            let subtitles = yield (0, youtube_caption_extractor_1.getSubtitles)({
                 videoID: videoId,
                 lang: 'en'
             });
-            console.log("subtitles: ", subtitles);
             if (!subtitles || subtitles.length === 0) {
-                throw new Error('No captions found for this video.');
+                console.log("No English captions, attempting Hindi...");
+                subtitles = yield (0, youtube_caption_extractor_1.getSubtitles)({
+                    videoID: videoId,
+                    lang: 'hi'
+                });
+            }
+            if (!subtitles || subtitles.length === 0) {
+                console.log("Attempting default/auto-generated fetch...");
+                subtitles = yield (0, youtube_caption_extractor_1.getSubtitles)({ videoID: videoId });
+            }
+            if (!subtitles || subtitles.length === 0) {
+                throw new Error('YouTube blocked this request or No Captions available.');
             }
             const fullText = subtitles.map(part => part.text).join(' ');
             return cleanTranscription(fullText);
         }
         catch (err) {
-            console.error("Transcription Error Detail:", err.message || err);
-            throw new Error(`Could not fetch transcript: ${err.message || 'Check if CC is enabled'}`);
+            console.error("Transcription Error:", err.message);
+            throw new Error(`Cloud Fetch Failed: ${err.message}`);
         }
     });
 }
