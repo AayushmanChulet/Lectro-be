@@ -21,7 +21,7 @@ export const notesController = async (req: Request, res: Response) => {
     });
   }
 
-  const transcription = await transcribe(link);
+  const transcription = await transcribe(link as string);
 
   const notes = await aiRequest({ type: "notes", transcription });
 
@@ -49,7 +49,7 @@ export const flashcardController = async (req: Request, res: Response) => {
     });
   }
 
-  const transcription = await transcribe(link);
+  const transcription = await transcribe(link as string);
 
   const rawFlashCardsResponse = await aiRequest({
     type: "flashCards",
@@ -95,7 +95,7 @@ export const summaryController = async (req: Request, res: Response) => {
     });
   }
 
-  const transcription = await transcribe(link);
+  const transcription = await transcribe(link as string);
 
   const summary = await aiRequest({ type: "summary", transcription });
 
@@ -123,7 +123,7 @@ export const quizController = async (req: Request, res: Response) => {
     });
   }
 
-  const transcription = await transcribe(link);
+  const transcription = await transcribe(link as string);
 
   const rawQuizResponse = await aiRequest({ type: "quiz", transcription });
   const quizResponse = cleanJsonString(rawQuizResponse);
@@ -174,7 +174,7 @@ export const chatBotController = async (req: Request, res: Response) => {
 
   const { link, lastChats, currMessage }: ChatBot = req.body;
 
-  const transcription = await transcribe(link);
+  const transcription = await transcribe(link as string);
 
   const chatResponse = await aiRequest({
     type: "chatbot",
@@ -201,7 +201,7 @@ export const promptSummrize = async (req: Request, res: Response) => {
     });
   }
 
-  const transcription = await transcribe(link);
+  const transcription = await transcribe(link as string);
   const getSummarizeTranscription = await aiRequest({
     type: "summarizeTranscription",
     transcription,
