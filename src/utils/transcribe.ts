@@ -7,11 +7,13 @@ const extractVideoId = (url: string): string => {
 
 export default async function transcribe(videoInput: string) {
   const videoId = extractVideoId(videoInput);
+  console.log(videoId);
   try {
     const subtitles = await getSubtitles({
       videoID: videoId,
       lang: 'en'
     });
+    console.log("subtitles: ",subtitles);
     if (!subtitles || subtitles.length === 0) {
       throw new Error('No captions found for this video.');
     }

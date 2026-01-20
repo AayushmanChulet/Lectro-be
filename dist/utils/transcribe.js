@@ -19,11 +19,13 @@ const extractVideoId = (url) => {
 function transcribe(videoInput) {
     return __awaiter(this, void 0, void 0, function* () {
         const videoId = extractVideoId(videoInput);
+        console.log(videoId);
         try {
             const subtitles = yield (0, youtube_caption_extractor_1.getSubtitles)({
                 videoID: videoId,
                 lang: 'en'
             });
+            console.log("subtitles: ", subtitles);
             if (!subtitles || subtitles.length === 0) {
                 throw new Error('No captions found for this video.');
             }
