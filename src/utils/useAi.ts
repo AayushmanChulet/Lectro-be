@@ -76,7 +76,7 @@ ${
     apiKey: process.env.GEMINI_API_KEY,
   });
   const config = {};
-  const model = "gemini-2.0-flash-lite";
+  const model = "gemini-2.5-flash-lite";
 
   if(props.type == "summarizeTranscription") {
     const chunks = chunkText(props.transcription, 4000);
